@@ -1,7 +1,8 @@
 import tensorflow as tf
 import numpy as np
 
-tf.flags.DEFINE_string("checkpoint_dir", "C:/Users/user/Desktop/aischool_beginner-master/aischool_beginner-master/tensorflow_basic/lecture5/runs/1608033392/checkpoints", "Checkpoint directory from training run")
+# TODO 모델 경로 변경
+tf.flags.DEFINE_string("checkpoint_dir", "./model/1608033392/checkpoints", "Checkpoint directory from training run")
 tf.flags.DEFINE_boolean("allow_soft_placement", True, "Allow device soft device placement")
 tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on devices")
 FLAGS = tf.flags.FLAGS
@@ -34,4 +35,3 @@ def get_result(image):
             img_hypothesis = sess.run(hypothesis, {input_x: [image], dropout_keep_prob: 1.0})
             result = np.argmax(img_hypothesis[0])
             return label[result]
-

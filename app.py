@@ -13,9 +13,7 @@ app.add_url_rule('/instance', endpoint='instance', view_func=app.send_static_fil
 def inference(image):
     image = Image.open('static/' + image)
     data = asarray(image)
-    # print(data)
     result = get_result(data)
-    print(result)
     return result
 
 
@@ -27,6 +25,7 @@ def welcome():
 @app.route('/demo')
 def demo():
     img_list = get_images()
+    # TODO 이름 바꾸기
     return render_template("index.html", name="David", img_list=img_list, img_cnt=len(img_list), inference=inference)
 
 
@@ -49,4 +48,3 @@ def save_image():
 
 if __name__ == "__main__":
     app.run()
-    # inference("airplane1.png")
