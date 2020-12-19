@@ -11,7 +11,7 @@ app.add_url_rule('/instance', endpoint='instance', view_func=app.send_static_fil
 
 
 def inference(image):
-    image = Image.open('static/' + image)
+    image = Image.open('./static/' + image)
     data = asarray(image)
     result = get_result(data)
     return result
@@ -31,10 +31,11 @@ def demo():
 
 def get_images():
     img_list = []
-    for img_f in glob("static/*"):
+    for img_f in glob("./static/*"):
         if 'ai.png' in img_f:
             continue
-        img_list.append(img_f.split("\\")[-1])
+        img_f = img_f.replace("\\", "/")
+        img_list.append(img_f.split("/")[-1])
     return img_list
 
 
