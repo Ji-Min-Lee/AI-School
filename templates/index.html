@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.column {
+  float: left;
+  width: 20%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
+
+.about-section {
+  padding: 50px;
+  text-align: center;
+  background-color: #8FA8DB;
+  color: black;
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="about-section">
+  <img src="{{url_for('static', filename = 'ai.png')}}" style="width:10%">
+  <h1>AI School 초급반 11기</h1>
+  <p>{{ name }}의 포트폴리오 입니다.</p>
+  <p><a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR 10</a> 이미지 분류</p>
+</div>
+
+<h2 style="text-align:center">이미지 업로드</h2>
+<form action="/redirect/image/save" method="POST" enctype="multipart/form-data" style="text-align:center">
+  <input type="file" id="myFile" name="filename">
+  <input type="submit">
+</form>
+{% for idx in range(img_cnt) %}
+  {% if idx % 5 == 0 %}
+    <div class="row">
+  {% endif %}
+  <div class="column">
+    <div class="card">
+      <img src="{{url_for('static', filename = img_list[idx])}}" alt="{{img_list[idx]}}" style="width:100%">
+      <div class="container">
+        <h2>분류 결과</h2>
+        <p class="result" id="result{{idx}}">-</p>
+        <p><button class="button" onclick="classify('{{inference(img_list[idx])}}', '{{idx}}')">분류하기</button></p>
+      </div>
+    </div>
+  </div>
+  {% if idx % 5 == 4 %}
+    </div>
+  {% endif  %}
+{% endfor %}
+<script>
+  function classify(cls, idx) {
+    var result = document.getElementById("result" + idx);
+    result.innerHTML = cls;
+  }
+</script>
+</body>
+</html>
